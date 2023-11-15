@@ -7,7 +7,7 @@ blueprint:
 
     - Heizung basierend auf einem Zeitplan, der Anwesenheit von Personen und/oder Anwesenheitssensor
 
-    - Fenster geöffnet / TRV aus
+    - Fenster geöffnet / TRV (Thermostatic Valve, Thermostatventil) aus
 
     - Party-Modus
 
