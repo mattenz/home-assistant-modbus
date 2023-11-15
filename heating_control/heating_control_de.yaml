@@ -1,63 +1,63 @@
 blueprint:
-  name: Advanced Heating Control
-  author: panhans
+  name: Fortgeschrittene Heizungssteuerung
+  author: panhans, dmatscheko
   description: "
 
-    ## Core Features
+    ## Kernfunktionen
 
-    - heating based on a scheduler, presence of persons and/or presence sensor
+    - Heizung basierend auf einem Zeitplan, der Anwesenheit von Personen und/oder Anwesenheitssensor
 
-    - window open / TRV off
+    - Fenster geöffnet / TRV aus
 
-    - party mode
+    - Party-Modus
 
-    - guest mode (if nobody is home who activates heating automatically)
+    - Gästemodus (wenn niemand zu Hause ist, der die Heizung automatisch aktiviert)
 
-    - winter mode: enable / disable the automation itself
+    - Wintermodus: Aktivierung / Deaktivierung der Automatisierung selbst
 
-    - holiday mode: provide a 2nd holiday scheduler
+    - Urlaubsmodus: Bereitstellung eines zweiten Urlaubszeitplans
 
-    - trv calibration by an external temperature sensor
+    - TRV-Kalibrierung durch einen externen Temperatursensor
 
-    - several tweaks for fixing your TRV issues
-
-
-    ## New in version 3
-
-    - adjust comfort temperature using your TRVs
-
-    - Guest Mode can be timer
-
-    - multiple windows / doors possible
-
-    - calibration only triggers when external sensor or current temperature of trv gets updated - not time based anymore
-
-    - adjustable calibration
-
-    - comfort temperature can be set in automation **or** by an input_number
-
-    - party mode overrides all other settings
-
-    - simplified and more functional presence detection
-
-    - presence detection only possible
-
-    - option to set climates off instead of minmum temperature
-
-    - several tweaks under the hood to prevent flooding zigbee mesh and reducing service calls
+    - Mehrere Anpassungen zur Behebung von TRV-Problemen
 
 
-    ## Additional Information
+    ## Neu in Version 3
+
+    - Einstellen der Komforttemperatur mit Ihren TRVs
+
+    - Der Gästemodus kann ein Timer sein
+
+    - Mehrere Fenster / Türen möglich
+
+    - Kalibrierung wird nur ausgelöst, wenn der externe Sensor oder die aktuelle TRV-Temperatur aktualisiert wird - nicht mehr zeitbasiert
+
+    - Einstellbare Kalibrierung
+
+    - Die Komforttemperatur kann in der Automatisierung **oder** über eine Eingabenummer festgelegt werden
+
+    - Der Party-Modus überschreibt alle anderen Einstellungen
+
+    - Vereinfachte und funktionalere Anwesenheitserkennung
+
+    - Nur mögliche Anwesenheitserkennung
+
+    - Option zum Ausschalten der Klimazonen anstelle der Mindesttemperatur
+
+    - Mehrere Optimierungen unter der Haube, um das Zigbee-Mesh nicht zu überfluten und die Serviceaufrufe zu reduzieren
+
+
+    ## Zusätzliche Informationen
 
     **Version**: 3.2
 
-    **Help & FAQ**: [Advanced Heating Control](https://community.home-assistant.io/t/advanced-heating-control)
+    **Hilfe & FAQ**: [Fortgeschrittene Heizungssteuerung](https://community.home-assistant.io/t/advanced-heating-control)
 
-    **Debug Configuration**: `blueprints.panhans.heatingcontrol: debug`
+    **Debug-Konfiguration**: `blueprints.panhans.heatingcontrol: debug`
 
 
 
-    If you like my work and support feel free to support me.
+    Wenn Ihnen meine Arbeit gefällt und Sie mich unterstützen möchten, können Sie dies gerne tun.
 
 
     [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Q5Q3QEH52)
@@ -67,8 +67,8 @@ blueprint:
   domain: automation
   input:
     input_trvs:
-      name: Thermostats / Valves
-      description: Thermostats to be controlled
+      name: Thermostate / Ventile
+      description: Zu steuernde Thermostate
       selector:
         entity:
           filter:
@@ -77,11 +77,11 @@ blueprint:
           multiple: true
 
     input_scheduler_regular:
-      name: Scheduler (optional)
+      name: Zeitplan (optional)
       description:
-        Scheduler that specifies when the comfort temperature can be set
-        (scheduler state on). Scheduler can be added in the helpers section in your
-        home assistant settings.
+        Zeitplan, der angibt, wann die Komforttemperatur eingestellt werden kann
+        (Zeitplanstatus aktiviert). Der Zeitplan kann im Abschnitt "Helfer" in Ihren
+        Home Assistant-Einstellungen hinzugefügt werden.
       default:
       selector:
         entity:
@@ -91,10 +91,10 @@ blueprint:
           multiple: false
 
     input_temperature_minimum:
-      name: Minimum Temp
+      name: Mindesttemperatur
       description:
-        If nobody is at home or the scheduler state is off, the minimum
-        temperature is set.
+        Wenn niemand zu Hause ist oder der Zeitplanstatus deaktiviert ist, wird die
+        Mindesttemperatur eingestellt.
       default: 19
       selector:
         number:
@@ -105,8 +105,8 @@ blueprint:
           unit_of_measurement: °C
 
     input_temperature_comfort_static:
-      name: Comfort Temperature
-      description: Set a static comfort temperature.
+      name: Komforttemperatur
+      description: Stellen Sie eine statische Komforttemperatur ein.
       default: 22
       selector:
         number:
@@ -117,8 +117,8 @@ blueprint:
           unit_of_measurement: °C
 
     input_temperature_comfort:
-      name: Comfort temperature (optional)
-      description: If you want to set the comfort temperature in ui just provide an input number helper.
+      name: Komforttemperatur (optional)
+      description: Wenn Sie die Komforttemperatur in der Benutzeroberfläche einstellen möchten, geben Sie eine Eingabenummer an.
       default:
       selector:
         entity:
@@ -128,10 +128,9 @@ blueprint:
           multiple: false
 
     input_persons:
-      name: Persons (optional)
+      name: Personen (optional)
       description:
-        If a person is at home and the scheduler state is on, the comfort
-        temperature will be set.
+        Wenn eine Person zu Hause ist und der Zeitplanstatus aktiviert ist, wird die Komforttemperatur eingestellt.
       default: []
       selector:
         entity:
@@ -141,8 +140,8 @@ blueprint:
           multiple: true
 
     input_mode_party:
-      name: Party mode (optional)
-      description: Overwrites winter mode and scheduler. If on, heating is activated.
+      name: Party-Modus (optional)
+      description: Überschreibt Wintermodus und Zeitplan. Wenn aktiviert, wird die Heizung aktiviert.
       default:
       selector:
         entity:
@@ -154,8 +153,8 @@ blueprint:
           multiple: false
 
     input_mode_guest:
-      name: Guest mode (optional)
-      description: Activates the scheduler and ignores if anybody is at home or not.
+      name: Gästemodus (optional)
+      description: Aktiviert den Zeitplan und ignoriert, ob jemand zu Hause ist oder nicht.
       default:
       selector:
         entity:
@@ -167,8 +166,8 @@ blueprint:
           multiple: false
 
     input_windows:
-      name: Windows / Doors (optional)
-      description: If open during airing TRVs will set to off.
+      name: Fenster / Türen (optional)
+      description: Wenn während des Lüftens geöffnet, werden die TRVs ausgeschaltet.
       default: []
       selector:
         entity:
@@ -178,8 +177,8 @@ blueprint:
           multiple: true
 
     input_windows_reaction_time:
-      name: Window / Door Reaction Time
-      description: Duration for which a window or door must be open/closed for the thermostats to close/open.
+      name: Reaktionszeit Fenster / Tür
+      description: Dauer, für die ein Fenster oder eine Tür geöffnet/geschlossen sein muss, damit die Thermostate schließen/öffnen.
       default: 10
       selector:
         number:
@@ -190,8 +189,8 @@ blueprint:
           unit_of_measurement: s
 
     input_mode_winter:
-      name: Winter mode (optional)
-      description: If on scheduled heating is activated, otherwise TRVs stay off.
+      name: Wintermodus (optional)
+      description: Wenn aktiviert, wird die geplante Heizung aktiviert, andernfalls bleiben die TRVs aus.
       default:
       selector:
         entity:
@@ -202,8 +201,8 @@ blueprint:
           multiple: false
 
     input_scheduler_holiday:
-      name: Holiday scheduler (optional)
-      description: Scheduler for holidays
+      name: Urlaubszeitplan (optional)
+      description: Zeitplan für Urlaube
       default:
       selector:
         entity:
@@ -213,8 +212,8 @@ blueprint:
           multiple: false
 
     input_mode_holiday:
-      name: Holiday mode (optional)
-      description: If on the defined holiday scheduler is active instead of the default one.
+      name: Urlaubsmodus (optional)
+      description: Wenn aktiviert, ist der definierte Urlaubszeitplan anstelle des Standardzeitplans aktiv.
       default:
       selector:
         entity:
@@ -225,8 +224,8 @@ blueprint:
           multiple: false
 
     input_presence_sensor:
-      name: Presence Sensor (optional)
-      description: If a presence sensor has been specified, heating is also carried out if the scheduler is off but presence has been detected. This presence sensor only has impact when no scheduler is defined or the active scheduler is off.
+      name: Anwesenheitssensor (optional)
+      description: Wenn ein Anwesenheitssensor angegeben wurde, wird die Heizung auch dann durchgeführt, wenn der Zeitplan deaktiviert ist, aber Anwesenheit festgestellt wurde. Dieser Anwesenheitssensor hat nur dann Auswirkungen, wenn kein Zeitplan definiert ist oder der aktive Zeitplan deaktiviert ist.
       default:
       selector:
         entity:
@@ -236,8 +235,8 @@ blueprint:
           multiple: false
 
     input_scheduler_presence:
-      name: Presence Sensor Scheduler (optional)
-      description: This optional scheduler specifies when heating is controlled by presence. If this is not specified, presence-based heating is always active.
+      name: Anwesenheitssensor-Zeitplan (optional)
+      description: Dieser optionale Zeitplan legt fest, wann die Heizung durch Anwesenheit gesteuert wird. Wenn dies nicht angegeben ist, ist die anwesenheitsbasierte Heizung immer aktiv.
       default:
       selector:
         entity:
@@ -247,10 +246,10 @@ blueprint:
           multiple: false
 
     input_presence_reaction_off_time:
-      name: Presence Reaction Off Time
+      name: Reaktionszeit bei Abwesenheit
       description:
-        Define how many minutes the presence sensor must be off so the
-        temperature turns to minimum.
+        Legen Sie fest, wie viele Minuten der Anwesenheitssensor ausgeschaltet sein muss, damit die
+        Temperatur auf das Minimum gesetzt wird.
       default: 5
       selector:
         number:
@@ -261,8 +260,8 @@ blueprint:
           unit_of_measurement: min
 
     input_presence_reaction_on_time:
-      name: Presence Reaction On Time
-      description: Define how many minutes the presence sensor must be on to turn on heating.
+      name: Reaktionszeit bei Anwesenheit
+      description: Legen Sie fest, wie viele Minuten der Anwesenheitssensor eingeschaltet sein muss, um die Heizung einzuschalten.
       default: 5
       selector:
         number:
@@ -273,24 +272,24 @@ blueprint:
           unit_of_measurement: min
 
     input_change_comfort_temperature_on_physical_change:
-      name: Physical Comfort Temperature Change
+      name: Physische Änderung der Komforttemperatur
       description: >
-        Enable this if you want to control the comfort temperature with your valves. 
-        A comfort temperature *input_number* has to be defined. Note that the changes have no effect on the minimum temperature. 
-        The temperature for the value range of the *input_number* is also adjusted.
+        Aktivieren Sie dies, wenn Sie die Komforttemperatur mit Ihren Ventilen steuern möchten.
+        Eine Komforttemperatur *input_number* muss definiert sein. Beachten Sie, dass die Änderungen keine Auswirkungen auf die Mindesttemperatur haben.
+        Die Temperatur für den Wertebereich der *input_number* wird ebenfalls angepasst.
       default: false
       selector:
         boolean: {}
 
     input_temperature_sensor:
-      name: External Temperatur Sensor (optional)
+      name: Externer Temperatursensor (optional)
       description: >
-        Temperature calibration for your TRVs. Following is supported:
+        Temperaturkalibrierung für Ihre TRVs. Folgendes wird unterstützt:
 
-          * TRVs must porvide calibration number entity (entity_id must contain *calibration* or *offset*)
+          * TRVs müssen eine Kalibrierungsnummer-Entität bereitstellen (entity_id muss *calibration* oder *offset* enthalten)
           * TADO TRVs
 
-        Note: This is an additional sensor inside your room usually next to your favourite spot.
+        Hinweis: Dies ist ein zusätzlicher Sensor in Ihrem Raum, normalerweise neben Ihrem Lieblingsplatz.
       default:
       selector:
         entity:
@@ -302,8 +301,8 @@ blueprint:
           multiple: false
 
     input_calibration_delta:
-      name: Calibration Delta
-      description: If the difference between TRV temperature and the external sensor temperature is greater or less than the calibration delta the TRV calibration will be triggered. The lower the delta the often calibration gets triggered.
+      name: Kalibrierungsunterschied
+      description: Wenn der Unterschied zwischen TRV-Temperatur und der Temperatur des externen Sensors größer oder kleiner als der Kalibrierungsunterschied ist, wird die TRV-Kalibrierung ausgelöst. Je kleiner der Unterschied, desto häufiger wird die Kalibrierung ausgelöst.
       default: 0.5
       selector:
         number:
@@ -314,8 +313,8 @@ blueprint:
           unit_of_measurement: °C
 
     input_calibration_timeout:
-      name: Calibration Timeout
-      description: Define a timeout if you want to decrease calibration calls if temperature changes too much. At least temperature of the external sensor or trv must stay for that duration before calibration gets triggered.
+      name: Kalibrierungs-Timeout
+      description: Legen Sie eine Zeitüberschreitung fest, wenn Sie die Kalibrierungsaufrufe verringern möchten, wenn sich die Temperatur zu stark ändert. Zumindest die Temperatur des externen Sensors oder TRV muss für diese Dauer konstant bleiben, bevor die Kalibrierung ausgelöst wird.
       default: 1
       selector:
         number:
@@ -326,8 +325,8 @@ blueprint:
           unit_of_measurement: min
 
     input_force_max_temperature:
-      name: Force Max Temperature (optional)
-      description: Set the maximum temperature of all TRVs regardless of any other settings.
+      name: Maximale Temperatur erzwingen (optional)
+      description: Legen Sie die maximale Temperatur aller TRVs unabhängig von anderen Einstellungen fest.
       default:
       selector:
         entity:
@@ -337,31 +336,31 @@ blueprint:
           multiple: false
 
     input_off_instead_min:
-      name: Off Instead Of Minimum Temperature
-      description: If enabled your climates turn *off* instead of lower temperature when scheduler is off or no presence is detected.
+      name: Ausschalten anstelle der Mindesttemperatur
+      description: Wenn aktiviert, schalten sich Ihre Klimazonen *aus* anstelle einer niedrigeren Temperatur, wenn der Zeitplan deaktiviert ist oder keine Anwesenheit festgestellt wird.
       default: false
       selector:
         boolean: {}
 
     input_force_minimum_temperature:
-      name: Force Mimimum Temperature
-      description: Activate this option if you have problems with OFF mode. Instead of setting them to off all TRVs will be set to their individual minimum temperature.
+      name: Mindesttemperatur erzwingen
+      description: Aktivieren Sie diese Option, wenn Sie Probleme mit dem AUS-Modus haben. Anstelle sie auf AUS zu setzen, werden alle TRVs auf ihre individuelle Mindesttemperatur eingestellt.
       default: false
       selector:
         boolean: {}
 
     input_split_service_calls:
-      name: Split Service Calls
-      description: Mode and temperature are set in one service call. Some TRVs have problems by setting it this way. Activate this option to set mode and temperature in seperate service calls.
+      name: Aufteilung der Serviceaufrufe
+      description: Modus und Temperatur werden in einem Serviceaufruf festgelegt. Einige TRVs haben Probleme damit. Aktivieren Sie diese Option, um Modus und Temperatur in getrennten Serviceaufrufen festzulegen.
       default: false
       selector:
         boolean: {}
 
     input_service_call_delay:
-      name: Service Call Delay
+      name: Verzögerung des Serviceaufrufs
       description:
-        Some TRVs have problems with setting mode and temperature. You can try to increas the
-        delay between the service calls. This could fix your problems.
+        Einige TRVs haben Probleme mit der Einstellung von Modus und Temperatur. Sie können versuchen, die
+        Verzögerung zwischen den Serviceaufrufen zu erhöhen. Dies könnte Ihre Probleme beheben.
       default: 2
       selector:
         number:
@@ -783,12 +782,12 @@ action:
               data:
                 level: warning
                 logger: blueprints.panhans.heatingcontrol
-                message: "{{ input_temperature_comfort }} can handle numbers between {{ min_comfort_temp }} and {{ max_comfort_temp }}. You want to set the temperature to {{ new_manual_temp }} °C. So comfort temperature will automatically adjust to {{ real_manual_temp }} °C."
+                message: "{{ input_temperature_comfort }} kann Zahlen zwischen {{ min_comfort_temp }} und {{ max_comfort_temp }} verarbeiten. Sie möchten die Temperatur auf {{ new_manual_temp }} °C einstellen. Daher wird sich die Komforttemperatur automatisch auf {{ real_manual_temp }} °C anpassen."
           - service: system_log.write
             data:
               level: debug
               logger: blueprints.panhans.heatingcontrol
-              message: "Comfort Temperature will set to: {{ real_manual_temp }}"
+              message: "Komforttemperatur wird auf {{ real_manual_temp }} °C eingestellt."
           - service: input_number.set_value
             data:
               value: "{{ real_manual_temp }}"
