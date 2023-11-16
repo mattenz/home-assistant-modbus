@@ -206,8 +206,8 @@ class ModbusThermostat(BaseStructPlatform, RestoreEntity, ClimateEntity):
     async def async_set_temperature(self, **kwargs: Any) -> None:
         """Set new target temperature."""
         target_temperature = (
-            float(kwargs[ATTR_TEMPERATURE]) - self._offset
-        ) / self._scale
+            float(kwargs[ATTR_TEMPERATURE]) - self._target_temp_offset
+        ) / self._target_temp_scale
         if self._data_type in (
             DataType.INT16,
             DataType.INT32,
