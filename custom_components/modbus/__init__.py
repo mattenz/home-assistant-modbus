@@ -105,6 +105,8 @@ from .const import (  # noqa: F401
     CONF_SWAP_WORD_BYTE,
     CONF_TARGET_TEMP,
     CONF_TARGET_TEMP_WRITE_REGISTERS,
+    CONF_TARGET_TEMP_SCALE,
+    CONF_TARGET_TEMP_OFFSET,
     CONF_VERIFY,
     CONF_VIRTUAL_COUNT,
     CONF_WRITE_REGISTERS,
@@ -229,6 +231,8 @@ CLIMATE_SCHEMA = vol.All(
     BASE_STRUCT_SCHEMA.extend(
         {
             vol.Required(CONF_TARGET_TEMP): cv.positive_int,
+            vol.Optional(CONF_TARGET_TEMP_SCALE): vol.Any(None, number_validator),
+            vol.Optional(CONF_TARGET_TEMP_OFFSET): vol.Any(None, number_validator),
             vol.Optional(CONF_TARGET_TEMP_WRITE_REGISTERS, default=False): cv.boolean,
             vol.Optional(CONF_MAX_TEMP, default=35): number_validator,
             vol.Optional(CONF_MIN_TEMP, default=5): number_validator,

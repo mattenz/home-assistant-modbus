@@ -17,6 +17,7 @@ from homeassistant.const import (
     CONF_TEMPERATURE_UNIT,
     PRECISION_TENTHS,
     PRECISION_WHOLE,
+    CONF_OFFSET,
     UnitOfTemperature,
 )
 from homeassistant.core import HomeAssistant
@@ -47,6 +48,9 @@ from .const import (
     CONF_TARGET_TEMP,
     CONF_TARGET_TEMP_WRITE_REGISTERS,
     CONF_WRITE_REGISTERS,
+    CONF_SCALE,
+    CONF_TARGET_TEMP_SCALE,
+    CONF_TARGET_TEMP_OFFSET,
     DataType,
 )
 from .modbus import ModbusHub
@@ -89,6 +93,12 @@ class ModbusThermostat(BaseStructPlatform, RestoreEntity, ClimateEntity):
             CONF_TARGET_TEMP_WRITE_REGISTERS
         ]
         self._unit = config[CONF_TEMPERATURE_UNIT]
+        self._target_temp_scale = config.get(
+            CONF_TARGET_TEMP_SCALE, config[CONF_SCALE]
+        )  # Use specific scale if provided, otherwise global scale
+        self._target_temp_offset = config.get(
+            CONF_TARGET_TEMP_OFFSET, config[CONF_OFFSET]
+        )  # Use specific offset if provided, otherwise global offset
 
         self._attr_current_temperature = None
         self._attr_target_temperature = None
@@ -247,9 +257,17 @@ class ModbusThermostat(BaseStructPlatform, RestoreEntity, ClimateEntity):
         # remark "now" is a dummy parameter to avoid problems with
         # async_track_time_interval
 
-        self._attr_target_temperature = await self._async_read_register(
-            CALL_TYPE_REGISTER_HOLDING, self._target_temperature_register
+        target_temp_raw = await self._async_read_register(
+            CALL_TYPE_REGISTER_HOLDING, self._target_temperature_register, raw=True
         )
+        if target_temp_raw is not None:
+            # Apply the specific scale and offset for target temperature
+            self._attr_target_temperature = (
+                self._target_temp_scale * target_temp_raw + self._target_temp_offset
+            )
+        else:
+            self._attr_target_temperature = None
+
         self._attr_current_temperature = await self._async_read_register(
             self._input_type, self._address
         )
