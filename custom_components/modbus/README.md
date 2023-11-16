@@ -49,7 +49,9 @@ modbus:
     port: 502
 
     # Dimplex Heat Pump
-    # https://dimplex.atlassian.net/wiki/spaces/DW/pages/3021504513/Modbus+TCP+Anbindung
+    # Dimplex Modbus TCP documentation: https://dimplex.atlassian.net/wiki/spaces/DW/pages/3021504513/Modbus+TCP+Anbindung
+    # Available state classes: https://developers.home-assistant.io/docs/core/entity/sensor/#available-state-classes
+    # List of device classes: https://www.home-assistant.io/integrations/binary_sensor/
     sensors:
       # Betriebsdaten
       - name: Dimplex Wärmepumpe Außentemperatur (R1)
@@ -619,8 +621,6 @@ modbus:
     climates:
       # It should be configured like this:
       #   https://www.home-assistant.io/integrations/modbus/#example-climate-configuration
-      # TODO: There is a problem because the scaling of the current temperature and the target temperature are different:
-      #   https://community.home-assistant.io/t/modbus-plataform-climate/323571
       - name: Dimplex Wärmepumpe Warmwasser
         device_address: 1
         address: 3 # Dimplex Wärmepumpe Temperatur Warmwasser (R3), Address for version H: 30
@@ -664,7 +664,6 @@ modbus:
         temp_step: 1
         temperature_unit: C
 
-# List of device classes: https://www.home-assistant.io/integrations/binary_sensor/
 sensor:
   - platform: template
     sensors:
